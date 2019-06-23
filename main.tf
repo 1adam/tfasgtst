@@ -147,7 +147,7 @@ resource "aws_autoscaling_group" "devops_asg_grp" {
 }
 
 resource "aws_lb" "main_lb" {
-    name_prefix = "devops-asg-tst-lb-"
+    name_prefix = "asgtst"
     internal = false
     load_balancer_type = "application"
     security_groups = ["${aws_security_group.primary.id}"]
