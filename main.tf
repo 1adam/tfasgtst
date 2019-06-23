@@ -151,6 +151,7 @@ resource "aws_autoscaling_group" "devops_asg_grp" {
     min_size = 1
     desired_capacity = 1
     target_group_arns = ["${aws_lb_target_group.pri_tg.arn}"]
+    vpc_zone_identifier = ["${aws_subnet.pub1.id}", "${aws_subnet.pub2.id}"]
     launch_template {
         id = "${aws_launch_template.main_lt.id}"
         version = "$Latest"
