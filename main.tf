@@ -6,19 +6,10 @@ provider "aws" {
 data "aws_caller_identity" "current" {}
 
 data "aws_ami" "img" {
-    owners = ["679593333241"]
     most_recent = true
     filter {
-        name = "name"
-        values = ["*bionic*"]
-    }
-    filter {
-        name = "description"
-        values = ["Canonical*LTS*"]
-    }
-    filter {
-        name = "architecture"
-        values = ["x86_64"]
+        name = "manifest-location"
+        values = ["099720109477/ubuntu/images/hvm-ssd/ubuntu-bionic-18.04-amd64-server-*"]
     }
 }
 
