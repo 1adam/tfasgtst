@@ -159,7 +159,7 @@ resource "aws_lb" "main_lb" {
 }
 
 resource "aws_lb_target_group" "pri_tg" {
-    name_prefix = "devops-asg-tst-tg-"
+    name_prefix = "asgtst"
     port = 22
     protocol = "TCP"
     vpc_id = "${aws_vpc.main.id}"
