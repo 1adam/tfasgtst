@@ -172,7 +172,6 @@ resource "aws_lb" "main_lb" {
     name_prefix = "asgtst"
     internal = false
     load_balancer_type = "network"
-    security_groups = ["${aws_security_group.primary.id}"]
     subnets = ["${aws_subnet.pub1.id}","${aws_subnet.pub2.id}"]
     enable_cross_zone_load_balancing = true
 
