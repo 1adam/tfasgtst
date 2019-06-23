@@ -104,8 +104,13 @@ resource "aws_route_table" "main_rt" {
     }
 }
 
-resource "aws_route_table_association" "main_rta" {
+resource "aws_route_table_association" "pub1_rta" {
     subnet_id = "${aws_subnet.pub1.id}"
+    route_table_id = "${aws_route_table.main_rt.id}"
+}
+
+resource "aws_route_table_association" "pub2_rta" {
+    subnet_id = "${aws_subnet.pub2.id}"
     route_table_id = "${aws_route_table.main_rt.id}"
 }
 
@@ -165,9 +170,10 @@ resource "aws_autoscaling_group" "devops_asg_grp" {
 resource "aws_lb" "main_lb" {
     name_prefix = "asgtst"
     internal = false
-    load_balancer_type = "application"
+    load_balancer_type = "network"
     security_groups = ["${aws_security_group.primary.id}"]
     subnets = ["${aws_subnet.pub1.id}","${aws_subnet.pub2.id}"]
+    enable_cross_zone_load_balancing = true
 
     tags = {
         Project = "DevOpsASGtest"
