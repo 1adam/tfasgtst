@@ -22,6 +22,10 @@ data "aws_ami" "img" {
     }
 }
 
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 resource "aws_vpc" "main" {
     cidr_block = "${var.vpc_cidr}"
     enable_dns_support = true
@@ -35,10 +39,22 @@ resource "aws_vpc" "main" {
 
 resource "aws_subnet" "pub1" {
     vpc_id = "${aws_vpc.main.id}"
-    cidr_block = "${var.pub_subnet_cidr}"
+    cidr_block = "${var.pub_subnet_cidr_1}"
     map_public_ip_on_launch = true
+    availability_zone = "${data.aws_availability_zones.available.names[0]}"
     tags = {
         Name = "subpub01"
+        Project = "DevOpsASGtest"
+    }
+}
+
+resource "aws_subnet" "pub2" {
+    vpc_id = "${aws_vpc.main.id}"
+    cidr_block = "${var.pub_subnet_cidr_2}"
+    map_public_ip_on_launch = true
+    availability_zone = "${data.aws_availability_zones.available.names[1]}"
+    tags = {
+        Name = "subpub02"
         Project = "DevOpsASGtest"
     }
 }
@@ -52,7 +68,7 @@ resource "aws_internet_gateway" "igw01" {
 
 resource "aws_security_group" "primary" {
     name_prefix = "allow-ssh-sg-"
-    description = "ALlow inbound SSH"
+    description = "Allow inbound SSH"
     vpc_id = "${aws_vpc.main.id}"
 
     ingress {
@@ -151,7 +167,7 @@ resource "aws_lb" "main_lb" {
     internal = false
     load_balancer_type = "application"
     security_groups = ["${aws_security_group.primary.id}"]
-    subnets = ["${aws_subnet.pub1.id}"]
+    subnets = ["${aws_subnet.pub1.id}","${aws_subnet.pub2.id}"]
 
     tags = {
         Project = "DevOpsASGtest"

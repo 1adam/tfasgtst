@@ -3,9 +3,13 @@ variable "vpc_cidr" {
     default = "10.20.30.0/24"
 }
 
-variable "pub_subnet_cidr" {
+variable "pub_subnet_cidr_1" {
     type = "string"
-    default = "10.20.30.0/24"
+    default = "10.20.30.0/25"
+}
+variable "pub_subnet_cidr_2" {
+    type = "string"
+    default = "10.20.30.128/25"
 }
 
 variable "inst_type" {
