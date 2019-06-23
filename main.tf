@@ -6,6 +6,7 @@ provider "aws" {
 data "aws_caller_identity" "current" {}
 
 data "aws_ami" "img" {
+    owners = ["099720109477"]
     most_recent = true
     filter {
         name = "manifest-location"
